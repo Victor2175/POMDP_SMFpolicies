@@ -13,5 +13,5 @@ To run the SMF policy, please follow the steps in the notebook tutorial "run_smf
 
 If you use this work, please cite the following paper: Victor Cohen and Axel Parmentier. Future memories are not needed for large classes of POMDPs. In arxiv:2205.02580. (https://arxiv.org/abs/2205.02580)
 
-
+\cite{CohenParmentier2022}
 
