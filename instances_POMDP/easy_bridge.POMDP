@@ -1,0 +1,91 @@
+######################################################################
+# bridge-repair.POMDP
+#
+# Bridge maintenace problem by Ellis, et al.
+#
+# Assumes that at each time point a repair action is selected (which
+# yields the state transitions) and then an inspection action is
+# taken, which yields the observations.
+# Weirdness of the way I specify the model means I need to
+# cross-product of both action sets.
+
+discount: 1.0
+values: cost
+
+states: less-5 between-5-15 between-15-25 more-25 failed
+
+actions: inspect repair
+
+# repair actions
+#	no-repair
+#	clean-paint
+#	paint-strengthen
+#	structural-repair
+
+# inspection actions
+#	no-inspect
+#	visual-inspect
+#	ut-inspect
+
+observations: 5
+
+
+######################################################################
+start: 1.0 0.0 0.0 0.0 0.0
+
+# transitions
+
+T: inspect
+0.80	0.13	0.02	0.00	0.05
+0.00	0.70	0.17	0.05	0.08
+0.00	0.00	0.75	0.15	0.10
+0.00	0.00	0.00	0.60	0.40
+0.00	0.00	0.00	0.00	1.00
+
+T: repair
+1.00	0.00	0.00	0.00	0.00
+1.00	0.00	0.00	0.00	0.00
+1.00	0.00	0.00	0.00	0.00
+1.00 	0.00	0.00	0.00	0.00
+1.00	0.00	0.00	0.00	0.00
+
+#######################################################################
+# visual-inspect observations
+
+O: inspect
+0.80 	0.20	0.00	0.00 	0.00	
+0.20	0.60	0.20	0.00 	0.00	
+0.05	0.70	0.25	0.00 	0.00	
+0.00	0.30	0.70	0.00 	0.00	
+0.00 	0.00 	1.00	0.00 	0.00	
+
+O: repair
+0.80 	0.20	0.00	0.00 	0.00	
+0.20	0.60	0.20	0.00 	0.00	
+0.05	0.70	0.25	0.00 	0.00	
+0.00	0.30	0.70	0.00 	0.00	
+0.00 	0.00 	1.00	0.00 	0.00	
+
+######################################################################
+# inspection rewards
+#
+#R: no-inspect : * : * : * 0
+#R: visual-inspect : * : * : * 4
+#R: ut-inspect : * : * : * 18
+
+######################################################################
+# no-repair rewards
+
+R: inspect : less-5 : * : * 0
+R: inspect : between-5-15 : * : * 0
+R: inspect : between-15-25 : * : * 0
+R: inspect : more-25 : * : * 0
+R: inspect : failed : * : * -1000
+
+R: repair : less-5 : * : * -100
+R: repair : between-5-15 : * : * -100
+R: repair : between-15-25 : * : * -100
+R: repair : more-25 : * : * -100
+R: repair : failed : * : * -1100
+
+
